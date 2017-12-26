@@ -6,10 +6,13 @@ using System.Collections.Generic;
 public class TableViewController<T> : ViewController		// ViewController 클래스를 상속
 {
     protected List<T> tableData = new List<T>();			// 리스트 항목의 데이터를 저장
-	[SerializeField] private RectOffset padding;			// 스크롤할 내용의 패딩
+    private Rect visibleRect;                               // 리스트 항목을 셀의 형태로 표시하는 범위를 나타내는 사각형
+    private ScrollRect cachedScrollRect;                    // Scroll Rect 컴포넌트를 캐시한다
+
+    [SerializeField] private RectOffset visibleRectPadding; // visibleRect의 패딩
+    [SerializeField] private RectOffset padding;			// 스크롤할 내용의 패딩
 	[SerializeField] private float spacingHeight = 4.0f;	// 각 셀의 간격
-    // Scroll Rect 컴포넌트를 캐시한다
-	private ScrollRect cachedScrollRect;
+    
 	public ScrollRect CachedScrollRect
 	{
 		get {
@@ -112,9 +115,6 @@ public class TableViewController<T> : ViewController		// ViewController 클래�
 		}
 	}
 
-    private Rect visibleRect;								// 리스트 항목을 셀의 형태로 표시하는 범위를 나타내는 사각형
-	[SerializeField] private RectOffset visibleRectPadding;	// visibleRect의 패딩
-
     // visibleRect을 갱신하기 위한 메서드
 	private void UpdateVisibleRect()
 	{
@@ -124,7 +124,7 @@ public class TableViewController<T> : ViewController		// ViewController 클래�
 		visibleRect.y = 
 			-CachedScrollRect.content.anchoredPosition.y + visibleRectPadding.top;
 
-        // visibleRect의 크기는 스크롤 뷰의 크기 + 패딩グ
+        // visibleRect의 크기는 스크롤 뷰의 크기 + 패딩
 		visibleRect.width = CachedRectTransform.rect.width + 
 			visibleRectPadding.left + visibleRectPadding.right;
 		visibleRect.height = CachedRectTransform.rect.height + 
