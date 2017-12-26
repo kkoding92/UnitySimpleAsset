@@ -8,6 +8,7 @@ public class TableViewController<T> : ViewController		// ViewController 클래�
     protected List<T> tableData = new List<T>();			// 리스트 항목의 데이터를 저장
     private Rect visibleRect;                               // 리스트 항목을 셀의 형태로 표시하는 범위를 나타내는 사각형
     private ScrollRect cachedScrollRect;                    // Scroll Rect 컴포넌트를 캐시한다
+    private Vector2 prevScrollPos;	                        // 바로 전의 스크롤 위치를 저장
 
     [SerializeField] private RectOffset visibleRectPadding; // visibleRect의 패딩
     [SerializeField] private RectOffset padding;			// 스크롤할 내용의 패딩
@@ -207,8 +208,6 @@ public class TableViewController<T> : ViewController		// ViewController 클래�
 			nextCellTop = lastCell.Bottom + new Vector2(0.0f, -spacingHeight);
 		}
 	}
-
-    private Vector2 prevScrollPos;	// 바로 전의 스크롤 위치를 저장
 
 	// 스크롤 뷰가 스크롤됐을 때 호출된다
 	public void OnScrollPosChanged(Vector2 scrollPos)
