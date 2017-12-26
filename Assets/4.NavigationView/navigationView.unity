@@ -1321,6 +1321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f788e9193b9fb14bb487be1db73c24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navigationBar: {fileID: 1609473838}
   titleLabel: {fileID: 1156310844}
   backButton: {fileID: 353982970}
   backButtonLabel: {fileID: 466566489}

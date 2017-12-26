@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class NavigationViewController : ViewController {
     private Stack<ViewController> stackedViews =
             new Stack<ViewController>();                // 뷰의 계층을 저장하는 스택
-    private ViewController currentView = null;      // 현재 뷰를 저장
+    private ViewController currentView = null;          // 현재 뷰를 저장
 
-    [SerializeField] private Text titleLabel;       // 내비게이션 바의 타이틀을 표시하는 텍스트
-    [SerializeField] private Button backButton;     // 내비게이션 바의 백 버튼
-    [SerializeField] private Text backButtonLabel;  // 백 버튼의 텍스트
+    [SerializeField] private GameObject navigationBar;  // 내비게이션 바
+    [SerializeField] private Text titleLabel;           // 내비게이션 바의 타이틀을 표시하는 텍스트
+    [SerializeField] private Button backButton;         // 내비게이션 바의 백 버튼
+    [SerializeField] private Text backButtonLabel;      // 백 버튼의 텍스트
 
     // 인스턴스를 로드할 때 호출된다
     void Awake()
