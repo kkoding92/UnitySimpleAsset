@@ -19,8 +19,9 @@ public class NavigationViewController : ViewController {
     {
         // 백 버튼의 이벤트 리스너를 설정한다
         backButton.onClick.AddListener(OnPressBackButton);
-        // 처음에는 백 버튼을 표시하지 않는다
+        // 처음에는 백 버튼과 내비게이션 바를 표시하지 않는다
         backButton.gameObject.SetActive(false);
+        navigationBar.SetActive(false);
     }
 
     // 백 버튼이 눌러졌을 때 호출되는 메서드
@@ -125,10 +126,12 @@ public class NavigationViewController : ViewController {
         {
             backButtonLabel.text = stackedViews.Peek().Title;
             backButton.gameObject.SetActive(true);
+            navigationBar.SetActive(true);
         }
         else
         {
             backButton.gameObject.SetActive(false);
+            navigationBar.SetActive(false);
         }
     }
 }
