@@ -82,6 +82,7 @@ public class NavigationViewController : ViewController {
         backButtonLabel.text = lastView.Title;
         // 백 버튼을 유효화한다
         backButton.gameObject.SetActive(true);
+        navigationBar.SetActive(true);
     }
 
     // 이전 계층의 뷰로 되돌아가는 처리를 수행하는 메서드
