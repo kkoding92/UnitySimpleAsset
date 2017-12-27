@@ -9,12 +9,14 @@ public class TableViewController<T> : ViewController		// ViewController 클래�
     private Rect visibleRect;                               // 리스트 항목을 셀의 형태로 표시하는 범위를 나타내는 사각형
     private ScrollRect cachedScrollRect;                    // Scroll Rect 컴포넌트를 캐시한다
     private Vector2 prevScrollPos;	                        // 바로 전의 스크롤 위치를 저장
+    private LinkedList<TableViewCell<T>> cells = new LinkedList<TableViewCell<T>>();         // 셀을 저장
 
+    [SerializeField] private GameObject cellBase;   // 복사 원본 셀
     [SerializeField] private RectOffset visibleRectPadding; // visibleRect의 패딩
     [SerializeField] private RectOffset padding;			// 스크롤할 내용의 패딩
 	[SerializeField] private float spacingHeight = 4.0f;	// 각 셀의 간격
     
-	public ScrollRect CachedScrollRect
+    public ScrollRect CachedScrollRect
 	{
 		get {
 			if(cachedScrollRect == null) { 
@@ -51,10 +53,6 @@ public class TableViewController<T> : ViewController		// ViewController 클래�
 		sizeDelta.y = padding.top + contentHeight + padding.bottom;
 		CachedScrollRect.content.sizeDelta = sizeDelta;
 	}
-
-	[SerializeField] private GameObject cellBase;	// 복사 원본 셀
-	private LinkedList<TableViewCell<T>> cells =
-        new LinkedList<TableViewCell<T>>();			// 셀을 저장
 
     // 인스턴스를 로드할 때 Awake 메서드 다음에 호출된다
 	protected virtual void Start()
