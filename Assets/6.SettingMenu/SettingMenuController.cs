@@ -10,6 +10,14 @@ public class SettingsOption
     public bool soundToggleValue;
     public int qualityValue;
     public float volumeValue;
+
+    public SettingsOption(bool arToggleValue, bool soundToggleValue, int qualityValue, float volumeValue)
+    {
+        this.arToggleValue = arToggleValue;
+        this.soundToggleValue = soundToggleValue;
+        this.qualityValue = qualityValue;
+        this.volumeValue = volumeValue;
+    }
 }
 
 public class SettingMenuController : ViewController
@@ -21,79 +29,104 @@ public class SettingMenuController : ViewController
     [SerializeField] private Dropdown qualityDropdown;
     [SerializeField] private Slider volumeSlider;
 
-    private static GameObject prefab = null;        //Settings View의 프리팹 저장
-    private bool isPressApply=false;
+    private SettingsOption settingsOption = null;
+    private bool isOnAR = false;
+
+    private void Awake()
+    {
+       // settingMenu.SetActive(false);
+
+        if (LoadSettings())
+        {
+            isOnAR = settingsOption.arToggleValue;
+
+            QualitySettings.SetQualityLevel(settingsOption.qualityValue);
+
+            if (settingsOption.soundToggleValue)
+                audioMixer.SetFloat("volume", settingsOption.volumeValue);
+            else
+                audioMixer.SetFloat("volume", -80);
+        }
+    }
 
     private void OnEnable()
     {
-    }
+        if (settingsOption == null)
+            settingsOption = new SettingsOption(true, true, 2, 20);
 
-    //Settings View를 표시하는 static 메서드
-    public static SettingMenuController Show(SettingsOption option = null)
-    {
-        if(prefab == null)
-        {
-            prefab = Resources.Load("SettingMenu") as GameObject;
-        }
-
-        GameObject obj = Instantiate(prefab) as GameObject;
-        SettingMenuController settingMenu = obj.GetComponent<SettingMenuController>();
-        settingMenu.UpdateContent(option);
-
-        return settingMenu;
+        UpdateContent(settingsOption);
     }
 
     //Settings View 내용을 갱신
     public void UpdateContent(SettingsOption option = null)
     {
-        if (option == null)
-        {
-        }
-        else
-        {
-            arToggle.isOn = option.arToggleValue;
-            soundToggle.isOn = option.soundToggleValue;
-            qualityDropdown.value = option.qualityValue;
-            volumeSlider.value = option.volumeValue;
-        }
-    }
-
-    public void OnPressResetButton()
-    {
-
-        Dismiss();
-    }
-
-    public void OnPressApplyButton()
-    {
-        if (isPressApply)
-            PlayerPrefs.SetInt("PressApplyStatus", isPressApply ? 0 : 1);
-        Dismiss();
-    }
-
-    //Settings View를 닫는 메서드
-    public void Dismiss()
-    {
-        Destroy(gameObject);
+        arToggle.isOn = option.arToggleValue;
+        soundToggle.isOn = option.soundToggleValue;
+        qualityDropdown.value = option.qualityValue;
+        volumeSlider.value = option.volumeValue;
     }
 
     public void SetVolume(float volume)
     {
         audioMixer.SetFloat("volume", volume);
+        settingsOption.volumeValue = volume;
     }
 
     public void SetQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
+        settingsOption.qualityValue = qualityIndex;
     }
 
     public void SetAR(bool isSetAR)
     {
-     
+        settingsOption.arToggleValue = isSetAR;
     }
 
     public void SetSound(bool isSetSound)
     {
-        
+        settingsOption.soundToggleValue = isSetSound;
+
+        if (isSetSound)
+            return;
+        else
+        {
+            audioMixer.SetFloat("volume", -80);
+        }
+    }
+
+    public void OnPressResetButton()
+    {
+        settingsOption.arToggleValue = arToggle.isOn = true;
+        settingsOption.soundToggleValue = soundToggle.isOn = true;
+        settingsOption.qualityValue = qualityDropdown.value = 2;
+        settingsOption.volumeValue = volumeSlider.value = 20;
+
+        QualitySettings.SetQualityLevel(2);
+        audioMixer.SetFloat("volume", 20);
+    }
+
+    public void OnPressApplyButton()
+    {
+        SaveSettings();
+        settingMenu.SetActive(false);
+    }
+
+    private void SaveSettings()
+    {
+        string jsonData = JsonUtility.ToJson(settingsOption, true);
+        PlayerPrefs.SetString("SavedSettings", jsonData);
+    }
+
+    private bool LoadSettings()
+    {
+        if (!PlayerPrefs.HasKey("SavedSettings"))
+            return false;
+        else
+        {
+            string loadData = PlayerPrefs.GetString("SavedSettings");
+            settingsOption = JsonUtility.FromJson<SettingsOption>(loadData);
+            return true;
+        }
     }
 }
