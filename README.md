@@ -6,4 +6,5 @@
 4.Drag & Drop
 5.Navigation View
 6.Alert View
+7.Unity Game Settings(Volume, Graphic Quality, Sound...)
 
