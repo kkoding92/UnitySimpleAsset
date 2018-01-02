@@ -22,7 +22,7 @@ public class SignupViewController : ViewController
 	[SerializeField] private Button sendBtn;
 	[SerializeField] private GameObject loadingObj;
 
-	private string errTitle="오류";
+	private string errTitle="";
 	private string errMessage="입력하신 정보를 다시 확인해주세요.";
 
     private static GameObject prefab = null;
@@ -104,6 +104,6 @@ public class SignupViewController : ViewController
 		}
 
         loadingObj.SetActive(true);
-
+        Destroy(gameObject);
     }
 }
