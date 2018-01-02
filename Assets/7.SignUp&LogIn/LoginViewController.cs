@@ -14,11 +14,15 @@ public class LoginViewController : ViewController {
 	[SerializeField] private GameObject loadingObj;
 
 	void Start () {
-		
+        signUpBtn.onClick.AddListener(delegate { SignUp(); });
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    private void SignUp()
+    {
+        SignupViewController.Show();
+    }
 }
