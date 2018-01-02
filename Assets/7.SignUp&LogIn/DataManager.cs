@@ -14,7 +14,10 @@ public class DataManager : MonoBehaviour {
 
     private void Awake()
     {
-        instance = null;
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
     }
 
     public void PostLogIn()

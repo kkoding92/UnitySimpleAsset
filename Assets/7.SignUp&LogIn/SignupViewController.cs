@@ -103,6 +103,7 @@ public class SignupViewController : ViewController
 			return;
 		}
 
+        DataManager.instance.PostSignUp(signUpInform);
         loadingObj.SetActive(true);
         Destroy(gameObject);
     }
