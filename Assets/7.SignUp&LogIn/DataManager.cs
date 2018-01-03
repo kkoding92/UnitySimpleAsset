@@ -31,13 +31,10 @@ public class DataManager : MonoBehaviour {
         StartCoroutine(WaitForRequest(www));
     }
 
-    public void PostSignUp(SignUpInform signUpInform)
+    public void PostSignUp(string signUpInform)
     {
         WWWForm form = new WWWForm();
-        form.AddField("email", signUpInform.emailAddr);
-        form.AddField("name", signUpInform.name);
-        form.AddField("password", signUpInform.password);
-        form.AddField("password_confirmation", signUpInform.rePassword);
+        form.AddField("sign_up", signUpInform);
 
         WWW www = new WWW(postLogInUrl, form);
 
@@ -118,4 +115,5 @@ public class DataManager : MonoBehaviour {
     private void ReceiveData(string receiveData)
     {
     }
+
 }

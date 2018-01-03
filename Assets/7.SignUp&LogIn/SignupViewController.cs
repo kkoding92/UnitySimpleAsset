@@ -103,7 +103,8 @@ public class SignupViewController : ViewController
 			return;
 		}
 
-        DataManager.instance.PostSignUp(signUpInform);
+        string data = JsonUtility.ToJson(signUpInform);
+        DataManager.instance.PostSignUp(data);
         loadingObj.SetActive(true);
         Destroy(gameObject);
     }
