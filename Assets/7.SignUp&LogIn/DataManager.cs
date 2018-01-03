@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class DataManager : MonoBehaviour {
    
     public static DataManager instance = null;
 
-    private string postLogInUrl = "http://localhost:3000/api/v1/sessions -d";
-    private string postSignUpUrl = "http://localhost:3000/api/v1/registrations -d";
+    private string postLogInUrl = "http://localhost:3000/api/v1/sessions";
+    private string postSignUpUrl = "http://localhost:3000/api/v1/registrations";
     private string deleteLogOutUrl = "http://localhost:3000/api/v1/sessions?auth_token=P-7Cfs15_EyCm-hGYkUe";
 
     private void Awake()
@@ -31,12 +33,15 @@ public class DataManager : MonoBehaviour {
         StartCoroutine(WaitForRequest(www));
     }
 
-    public void PostSignUp(string signUpInform)
+    public void PostSignUp(SignUpInform signUpInform)
     {
         WWWForm form = new WWWForm();
-        form.AddField("sign_up", signUpInform);
+        form.AddField("email", signUpInform.emailAddr);
+        form.AddField("name", signUpInform.name);
+        form.AddField("password", signUpInform.password);
+        form.AddField("password_confirmation", signUpInform.rePassword);
 
-        WWW www = new WWW(postLogInUrl, form);
+        WWW www = new WWW(postSignUpUrl, form);
 
         StartCoroutine(WaitForRequest(www));
     }
@@ -115,5 +120,4 @@ public class DataManager : MonoBehaviour {
     private void ReceiveData(string receiveData)
     {
     }
-
 }
