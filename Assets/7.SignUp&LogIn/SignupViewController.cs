@@ -104,6 +104,14 @@ public class SignupViewController : ViewController
 		}
 
         DataManager.instance.PostSignUp(signUpInform);
-        loadingObj.SetActive(true);
+
+        if (DataManager.instance.IsLodingStart)
+        {
+            loadingObj.SetActive(true);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

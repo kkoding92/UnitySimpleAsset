@@ -1,12 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable]
 public struct LogInInform
 {
     public string id;
     public string pw;
+}
+
+[Serializable]
+public struct LogInSettingsOption
+{
+    public bool isAutoLogIn;
+    public bool isSetID;
 }
 
 public class LoginViewController : ViewController
@@ -20,9 +27,14 @@ public class LoginViewController : ViewController
 	[SerializeField] private GameObject loadingObj;
 
     private LogInInform logInInform;
+    private LogInSettingsOption logInSettingsOption;
 
-    void Start () {
-        logInInform = new LogInInform();
+    private void Awake()
+    {
+        
+    }
+
+    private void Start () {
         signUpBtn.onClick.AddListener(delegate { SignUp(); });
         signInBtn.onClick.AddListener(delegate { LogIn(); });
         idInput.onEndEdit.AddListener(delegate { CheckIDInput(idInput); });
@@ -48,7 +60,7 @@ public class LoginViewController : ViewController
         }
         logInInform.pw = input.text;
     }
-
+    
     private void SignUp()
     {
         SignupViewController.Show();
@@ -57,5 +69,26 @@ public class LoginViewController : ViewController
     private void LogIn()
     {
 
+    }
+
+    //옵션 및 데이터 저장
+    private void SaveSettings()
+    {
+        string jsonData = JsonUtility.ToJson(settingsOption, true);
+        PlayerPrefs.SetString("SavedSettings", jsonData);
+    }
+
+    //저장된 데이터 유무 확인
+    private bool LoadSettings()
+    {
+        if (!PlayerPrefs.HasKey("SavedSettings"))
+            return false;
+        else
+        {
+            //저장된 값을 파싱해 loadSettingsOption 객체에 담는다.
+            string loadData = PlayerPrefs.GetString("SavedSettings");
+            loadSettingsOption = JsonUtility.FromJson<SettingsOption>(loadData);
+            return true;
+        }
     }
 }

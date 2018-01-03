@@ -9,10 +9,24 @@ using UnityEngine.Networking;
 public class DataManager : MonoBehaviour {
    
     public static DataManager instance = null;
+    private bool isLodingStart = false;
 
     private string postLogInUrl = "http://localhost:3000/api/v1/sessions";
     private string postSignUpUrl = "http://localhost:3000/api/v1/registrations";
     private string deleteLogOutUrl = "http://localhost:3000/api/v1/sessions?auth_token=P-7Cfs15_EyCm-hGYkUe";
+
+    public bool IsLodingStart
+    {
+        get
+        {
+            return isLodingStart;
+        }
+
+        set
+        {
+            isLodingStart = value;
+        }
+    }
 
     private void Awake()
     {
@@ -46,26 +60,6 @@ public class DataManager : MonoBehaviour {
         StartCoroutine(WaitForRequest(www));
     }
 
-    //private void OnButtonClicked()
-    //{
-    //    if (Type == EType.GET)
-    //    {
-    //        // GET
-    //        string url = "http://127.0.0.1:3000/method_get_test/users";
-    //        WWW www = new WWW(url);
-    //        StartCoroutine(WaitForRequest(www));
-    //    }
-    //    else if (Type == EType.POST)
-    //    {
-    //        // POST
-    //        string url = "http://127.0.0.1:3000/method_post_test/user";
-    //        WWWForm form = new WWWForm();
-    //        form.AddField("id", "8");
-    //        form.AddField("name", "brian8");
-    //        WWW www = new WWW(url, form);
-
-    //        StartCoroutine(WaitForRequest(www));
-    //    }
     //    else if (Type == EType.PUT)
     //    {
     //        // PUT
@@ -104,6 +98,8 @@ public class DataManager : MonoBehaviour {
 
     IEnumerator WaitForRequest(WWW www)
     {
+        isLodingStart = true;
+
         yield return www;
 
         if (www.error == null)
