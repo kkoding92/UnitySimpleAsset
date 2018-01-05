@@ -1,10 +1,89 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+
+[Serializable]
+public class Configuration
+{
+    [SerializeField] private bool success;
+    [SerializeField] private string info;
+    [SerializeField] private TokenData data;
+
+    public string Info
+    {
+        get
+        {
+            return info;
+        }
+    }
+
+    public bool Success
+    {
+        get
+        {
+            return success;
+        }
+    }
+
+    public TokenData Data
+    {
+        get
+        {
+            return data;
+        }
+    }
+}
+
+[Serializable]
+public class TokenData
+{
+    [SerializeField] private UserData user;
+    [SerializeField] private string auth_token;
+
+    public string Auth_token
+    {
+        get
+        {
+            return auth_token;
+        }
+
+        set
+        {
+            auth_token = value;
+        }
+    }
+
+    public UserData User
+    {
+        get
+        {
+            return user;
+        }
+    }
+}
+
+[Serializable]
+public class UserData
+{
+    [SerializeField] private string id;
+    [SerializeField] private string email;
+    [SerializeField] private string authentication_token;
+    [SerializeField] private string name;
+    [SerializeField] private string created_at;
+    [SerializeField] private string updated_at;
+
+    public string Name
+    {
+        get
+        {
+            return name;
+        }
+    }
+}
 
 public class DataManager : MonoBehaviour {
    
