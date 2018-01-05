@@ -111,6 +111,7 @@ public class SignupViewController : ViewController
         }
         else
         {
+            loadingObj.SetActive(false);
             Destroy(gameObject);
         }
     }

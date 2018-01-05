@@ -36,11 +36,11 @@ public class DataManager : MonoBehaviour {
             Destroy(gameObject);
     }
 
-    public void PostLogIn()
+    public void PostLogIn(LogInInform loginInform)
     {
         WWWForm form = new WWWForm();
-        form.AddField("id", "8");
-        form.AddField("password", "brian8");
+        form.AddField("id", loginInform.id);
+        form.AddField("password", loginInform.pw);
 
         WWW www = new WWW(postLogInUrl, form);
 
