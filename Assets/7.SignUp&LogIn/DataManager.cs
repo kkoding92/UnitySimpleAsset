@@ -89,10 +89,11 @@ public class DataManager : MonoBehaviour {
    
     public static DataManager instance = null;
     private bool isLodingStart = false;
+    private Configuration config;
 
     private string postLogInUrl = "http://localhost:3000/api/v1/sessions";
     private string postSignUpUrl = "http://localhost:3000/api/v1/registrations";
-    private string deleteLogOutUrl = "http://localhost:3000/api/v1/sessions?auth_token=P-7Cfs15_EyCm-hGYkUe";
+    private string deleteLogOutUrl = "http://localhost:3000/api/v1/sessions?auth_token=";
 
     public bool IsLodingStart
     {
@@ -194,5 +195,27 @@ public class DataManager : MonoBehaviour {
 
     private void ReceiveData(string receiveData)
     {
+        config = JsonUtility.FromJson<Configuration>(receiveData);
+
+        if(config.Info.Equals("Logged in"))
+        {
+            //로그인 성공
+        }
+        else if(config.Info.Equals("Logged out"))
+        {
+            //로그아웃
+        }
+        else if (config.Info.Equals("login failed"))
+        {
+            //로그인 실패
+        }
+        else if (config.Info.Equals("Registered"))
+        {
+            //회원가입 성공
+        }
+        else
+        {
+            //회원 가입 실패
+        }
     }
 }
